@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 
 public class DoublyLinkedList<E> implements Interface_form.List<E> {
@@ -158,7 +161,133 @@ public class DoublyLinkedList<E> implements Interface_form.List<E> {
     return element;
   }
 
-  public E remove(Object value) {
+  public boolean remove(Object value) {
+    if (head.data == value) {
+      remove();
+      return true;
+    }
+    Node<E> x = head;
+    while (x.data != value) {
+      x = x.next;
+    }
+    if (x == null) {
+      return false;
+    }
+    Node<E> preNode = x.prev;
+    Node<E> nxtNode = x.next;
+    x.data = null;
+    x.next = null;
+    x.prev = null;
+    preNode.next = nxtNode;
+    if (nxtNode != null) {
+      nxtNode.prev = preNode;
+    } else {
+      tail = preNode;
+    }
+    size--;
+    return true;
+  }
 
+  public E get(int index) {
+    return search(index).data;
+  }
+
+  public void set(int index, E value) {
+    search(index).data = value;
+  }
+
+  public int indexOf(Object value) {
+    int index = 0;
+    for (Node<E> x = head; x != null; x = x.next) {
+      if (x.equals(value)) {
+        return index;
+      }
+      index++;
+    }
+    return -1;
+  }
+
+  public int LastindexOf(Object value) {
+    int index = size-1;
+    for (Node<E> x = tail; x != null; x = x.prev) {
+      if (x.equals(value)) {
+        return index;
+      }
+      index--;
+    }
+    return -1;
+  }
+
+  public boolean contains(Object item) {
+    return indexOf(item) >= 0;
+  }
+
+  public int size() {
+    return size;
+  }
+
+  public boolean isEmpty() {
+    return size == 0;
+  }
+
+  public void clear() {
+    for (Node<E> x = head; x != null; x = x.next) {
+      Node<E> tempNode = x.next;
+      x.data = null;
+      x.prev = null;
+      x.next = null;
+      x = tempNode;
+    }
+    head = tail = null;
+    size = 0;
+  }
+
+  public Object clone() throws CloneNotSupportedException {
+
+    DoublyLinkedList<? super E> clone = (DoublyLinkedList<? super E>) super.clone();
+
+    clone.head = null;
+    clone.tail = null;
+    clone.size = 0;
+
+    for(Node<E> x = head; x != null; x = x.next) {
+      clone.addLast(x.data);
+    }
+    return clone;
+  }
+
+  public Object[] toArray() {
+    Object[] arr = new Object[size];
+    int i = 0;
+    for(Node<E> x = head; x != null; x = x.next) {
+      arr[i++] = x.data;
+    }
+    return arr;
+  }
+
+  public <T> T[] toArray(T[] a) {
+    if (a.length < size) {
+      a = (T[]) Array.newInstance(a.getClass().getComponentType(), size);
+      // a 사이즈르 재정의 하기 위해 a의 타입을 받고 사이즈 까지 받아 새로운 array 객체를 만든다.
+    }
+    int i = 0;
+    Object[] result = a;
+    for(Node<E> x = head; x != null; x = x.next) {
+      result[i++] = x.data;
+    }
+    return result;
+  }
+
+  public void sort() {
+    sort(null);
+  }
+
+  public void sort(Comparator<? super E> c) {
+    Object[] a = this.toArray();
+    Arrays.sort(a, (Comparator) c);
+    int i = 0;
+    for(Node<E> x = head; x != null; x = x.next) {
+      x.data = (E) a[i++];
+    }
   }
 }
