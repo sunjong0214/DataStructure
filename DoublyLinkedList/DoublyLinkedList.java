@@ -72,6 +72,7 @@ public class DoublyLinkedList<E> implements Interface_form.List<E> {
     }
   }
 
+  @Override
   public boolean add(E value) {
     addLast(value);
     return true;
@@ -135,7 +136,8 @@ public class DoublyLinkedList<E> implements Interface_form.List<E> {
     return element;
   }
 
-  public E value(int index) {
+  @Override
+  public E remove(int index) {
     if (index < 0 || index >= size) {
       throw new IndexOutOfBoundsException();
     }
@@ -161,6 +163,7 @@ public class DoublyLinkedList<E> implements Interface_form.List<E> {
     return element;
   }
 
+  @Override
   public boolean remove(Object value) {
     if (head.data == value) {
       remove();
@@ -188,14 +191,17 @@ public class DoublyLinkedList<E> implements Interface_form.List<E> {
     return true;
   }
 
+  @Override
   public E get(int index) {
     return search(index).data;
   }
 
+  @Override
   public void set(int index, E value) {
     search(index).data = value;
   }
 
+  @Override
   public int indexOf(Object value) {
     int index = 0;
     for (Node<E> x = head; x != null; x = x.next) {
@@ -218,18 +224,22 @@ public class DoublyLinkedList<E> implements Interface_form.List<E> {
     return -1;
   }
 
+  @Override
   public boolean contains(Object item) {
     return indexOf(item) >= 0;
   }
 
+  @Override
   public int size() {
     return size;
   }
 
+  @Override
   public boolean isEmpty() {
     return size == 0;
   }
 
+  @Override
   public void clear() {
     for (Node<E> x = head; x != null; x = x.next) {
       Node<E> tempNode = x.next;
@@ -244,6 +254,7 @@ public class DoublyLinkedList<E> implements Interface_form.List<E> {
 
   public Object clone() throws CloneNotSupportedException {
 
+    @SuppressWarnings("unchecked")
     DoublyLinkedList<? super E> clone = (DoublyLinkedList<? super E>) super.clone();
 
     clone.head = null;
@@ -265,6 +276,7 @@ public class DoublyLinkedList<E> implements Interface_form.List<E> {
     return arr;
   }
 
+  @SuppressWarnings("unchecked")
   public <T> T[] toArray(T[] a) {
     if (a.length < size) {
       a = (T[]) Array.newInstance(a.getClass().getComponentType(), size);
@@ -282,6 +294,7 @@ public class DoublyLinkedList<E> implements Interface_form.List<E> {
     sort(null);
   }
 
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public void sort(Comparator<? super E> c) {
     Object[] a = this.toArray();
     Arrays.sort(a, (Comparator) c);
