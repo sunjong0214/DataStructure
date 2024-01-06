@@ -1,6 +1,6 @@
-import java.util.List;
+import git.Interface_form.List;
 
-public class ArrayList implements List {
+public class ArrayList implements List<E> {
   static final int DEFAULT_CAPACITY = 10;
   static final Object[] EMPTY_ARRAY = {};
   private int size;

@@ -1,3 +1,8 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.EmptyStackException;
+
 import Interface_form.StackInterface;
 
 public class Stack<E> implements StackInterface<E> {
@@ -111,5 +116,48 @@ public class Stack<E> implements StackInterface<E> {
     return size == 0;
   }
 
-  
+  @Override
+  public Object clone() throws CloneNotSupportedException {
+    Stack<E> clone = (Stack<E>) super.clone();
+
+    // clone.DEFAULT_CAPACITY = 10;
+    // clone.EMPTY_ARRAY = {};
+    // clone.array;
+    // clone.size = 0;
+
+    clone.array = new Object[size];
+
+    // for (int i = 0; i < size; i++) {
+    //   clone.array[i] = array[i];
+    //   clone.size++;
+    // }
+    System.arraycopy(clone, 0, array, 0, size);
+    return clone();
+  }
+
+  public Object toArray() {
+    // return  array;
+    // array의 용적이 size보다 크므로 size 만큼의 크기를 가지는 새로운 배열을 리턴해주자
+    return Arrays.copyOf(array, size);
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> T[] toArray(T[] a) {
+    if (a.length < size) {
+      //a = (T[]) Array.newInstance(getClass().getComponentType(), size);
+      return Arrays.copyOf(array, size, getClass());
+    }
+    System.arraycopy(array, 0, a, 0, size);
+    return a;
+  }
+
+  public void sort() {
+    sort(null);
+  }
+
+  public void sort(Comparator<? super E> c) {
+    // Arrays.sort(array, (Comparator) c);
+    Arrays.sort((E[]) array, 0, size, c);
+    // size 까지만 정려하면 되기 때문에 위  Arrays.sort(T[] a, int fromIndex, int toIndex, Comparator<? super T> c) 를 사용
+  }
 }
