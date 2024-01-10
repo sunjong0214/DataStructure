@@ -78,11 +78,59 @@ public class ArrayQueue<E> implements QueueInterface<E> {
 
     front = (front + 1) % array.length; // 한번만 계산하자.
 
+    @SuppressWarnings("unchecked")
     E element = (E) array[front];
     array[front] = null;
     size--;
 
-    if ()
+    if (array.length / 4 > size && array.length > DEFAULT_CAPACITY) {
+      resize(Math.max(DEFAULT_CAPACITY, array.length / 2));
+    }
     return element;
+  }
+
+  public E remove() {
+
+    E item = pull();
+
+    if (item == null) {
+      throw new NoSuchElementException();
+    }
+
+    return item;
+  }
+
+  @Override
+  public E peek() {
+    if (size == 0) {
+      return null;
+    }
+    @SuppressWarnings("unchecked")
+    E item = (E) array[(front + 1) % array.length];
+    return item;
+  }
+
+  public E element() {
+    E item = peek();
+    if (item == null) {
+      throw new NoSuchElementException();
+    }
+    return item;
+  }
+
+  public int size() {
+    return size;
+  }
+
+  public boolean isEmpty() {
+    return size == 0;
+  }
+
+  public boolean contains(Object value) {
+    int x = (front + 1) % array.length;
+
+    for (int i = 0; i < size; i++) {
+
+    }
   }
 }
