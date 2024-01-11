@@ -129,8 +129,24 @@ public class ArrayQueue<E> implements QueueInterface<E> {
   public boolean contains(Object value) {
     int x = (front + 1) % array.length;
 
-    for (int i = 0; i < size; i++) {
-
+    for (int i = 0, idx = x; i < size; idx = (idx + 1) % array.length, i++) {
+      if (array[idx].equals(value)) {
+        return true;
+      }
     }
+    return false;
+  }
+
+  public void clear() {
+    int x = (front + 1) % array.length;
+
+    // for (int i = 0; i < size; i++, x=(x+1)%array.length) {
+    // array[x] = null;
+    // } 걍 싹 다 null로
+    for (int i = 0; i < array.length; i++) {
+      array[i] = null;
+    }
+
+    front = size = rear = 0;
   }
 }
